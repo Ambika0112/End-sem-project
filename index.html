@@ -1,195 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Farm Shop</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
-    }
-    .container {
-      max-width: 1000px;
-      margin: auto;
-      padding: 20px;
-    }
-    .breadcrumb {
-      font-size: 15px;
-      margin-bottom: 20px;
-    }
-    .breadcrumb a {
-      color: #000;
-      text-decoration: none;
-      font-weight: 500;
-      cursor: pointer;
-    }
-    .breadcrumb-separator {
-      margin: 0 8px;
-      color: #888;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-    }
-
-    .card {
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      padding: 15px;
-      text-align: center;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .card:hover {
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .card img {
-      width: 100%;
-      height: 140px;
-      object-fit: contain;
-    }
-    .hidden {
-      display: none;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmConnect - Farmers E-Commerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <div class="container">
-    <!-- Breadcrumb -->
-    <div class="breadcrumb" id="breadcrumb">
-      <a onclick="goHome()">Home</a>
-    </div>
-
-    <!-- Sections -->
-    <div id="home">
-      <h2>Welcome to Farm Shop</h2>
-      <p>Click below to explore categories:</p>
-      <div class="grid">
-        <div class="card" onclick="showCategories()">
-          <img src="https://via.placeholder.com/150x150.png?text=Categories" alt="Categories">
-          <h4>Browse Categories</h4>
+    <!-- Navbar --> 
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: rgb(137, 236, 126); padding-top:30px;">
+        <div class="container"> 
+            <!-- Logo --> 
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" class="w-100"  alt="FarmConnect Logo">
+            </a>
+            
+            <!-- Mobile Toggle --> 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- Search Bar -->
+            <form class="d-flex mx-auto search-bar">
+                <div class="input-group">
+                    <input class="form-control" type="search" placeholder="Search for crops, seeds, tools..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+            
+        <!-- Nav Links -->
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-user me-1"></i> Account
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2"></i>My Profile</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-clipboard-list me-2"></i>My Orders</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                </ul>
+            </li>
+                    
+            <!-- Cart -->
+            <li class="nav-item">
+                <a class="nav-link position-relative" href="#">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </li> 
+        </ul>
         </div>
-      </div>
-    </div>
-
-    <div id="categories" class="hidden">
-      <h2>Categories</h2>
-      <div class="grid">
-        <div class="card" onclick="showProducts('Nutrients')">
-          <img src="https://via.placeholder.com/150x150.png?text=Nutrients" alt="Nutrients">
-          <h4>Nutrients</h4>
         </div>
-        <div class="card" onclick="showProducts('Pesticides')">
-          <img src="https://via.placeholder.com/150x150.png?text=Pesticides" alt="Pesticides">
-          <h4>Pesticides</h4>
-        </div>
-      </div>
+    </nav>
+
+<!-- Carousel --> 
+<marquee behavior="" direction="" class="fs-5">⚡Kheti ke saathi, ab mile do ek ke bhaav mein ⚡ "Ab kheti ho smart—Buy 1, Get 1 free!" ⚡ </marquee> 
+<div id="photoCarousel" class="carousel slide mt-2" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="images/image.png" class="d-block w-100 h-75" alt="Photo 1">
+    </div>
+    <div class="carousel-item">
+      <img src="images/pump.png" class="d-block w-100 h-75" alt="Photo 2">
+    </div>
+    <div class="carousel-item">
+      <img src="images/Screenshot 2025-07-31 223613.png" class="d-block w-100 h-75" alt="Photo 3">
+    </div> 
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- cards -->
+<div class="cards_container">
+    <div class="cards">
+      <img src="images/image.png" alt="" class="product_img">
+      <p class="product_name">Nutrients</p>
     </div>
 
-    <div id="products" class="hidden">
-      <h2 id="categoryTitle">Products</h2>
-      <div class="grid" id="productList"></div>
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
     </div>
 
-    <div id="productDetails" class="hidden">
-      <h2 id="productTitle">Product Title</h2>
-      <img id="productImage" src="" alt="Product Image" style="width: 250px;">
-      <p id="productDesc"></p>
-      <p><strong id="productPrice"></strong></p>
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
     </div>
 
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
+    </div>
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
+    </div>
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
+    </div>
   </div>
 
-  <script>
-    const home = document.getElementById('home');
-    const categories = document.getElementById('categories');
-    const products = document.getElementById('products');
-    const productDetails = document.getElementById('productDetails');
-    const breadcrumb = document.getElementById('breadcrumb');
-    const categoryTitle = document.getElementById('categoryTitle');
-    const productList = document.getElementById('productList');
+  <!-- navigate cards -->
+  <div class="popular_cat">
+    <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
 
-    const productsData = {
-      Nutrients: [
-        { name: "NPK 20-20-20", desc: "Balanced nutrient for all crops.", price: "₹399", img: "https://via.placeholder.com/150?text=NPK" },
-        { name: "Organic Mix", desc: "Organic certified fertilizer.", price: "₹299", img: "https://via.placeholder.com/150?text=Organic" }
-      ],
-      Pesticides: [
-        { name: "Neem Oil", desc: "Organic pesticide for insects.", price: "₹199", img: "https://via.placeholder.com/150?text=Neem+Oil" },
-        { name: "Crop Defender", desc: "Protects from fungal attacks.", price: "₹249", img: "https://via.placeholder.com/150?text=Defender" }
-      ]
-    };
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
 
-    function setBreadcrumb(pathArray) {
-      breadcrumb.innerHTML = pathArray.map((p, i) => {
-        if (i === pathArray.length - 1) return `<span>${p}</span>`;
-        return `<a onclick="${breadcrumbAction(p)}">${p}</a>`;
-      }).join('<span class="breadcrumb-separator">/</span>');
-    }
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
 
-    function breadcrumbAction(name) {
-      switch (name) {
-        case 'Home': return 'goHome()';
-        case 'Categories': return 'showCategories()';
-        default: return '';
-      }
-    }
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
 
-    function goHome() {
-      hideAll();
-      setBreadcrumb(['Home']);
-      home.classList.remove('hidden');
-    }
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
 
-    function showCategories() {
-      hideAll();
-      setBreadcrumb(['Home', 'Categories']);
-      categories.classList.remove('hidden');
-    }
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
 
-    function showProducts(category) {
-      hideAll();
-      setBreadcrumb(['Home', 'Categories', category]);
-      categoryTitle.textContent = category;
-      productList.innerHTML = '';
-      productsData[category].forEach(prod => {
-        productList.innerHTML += `
-          <div class="card" onclick="showProductDetails('${category}', '${prod.name}')">
-            <img src="${prod.img}" alt="${prod.name}">
-            <h4>${prod.name}</h4>
-            <p>${prod.price}</p>
-          </div>
-        `;
-      });
-      products.classList.remove('hidden');
-    }
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
 
-    function showProductDetails(category, name) {
-      hideAll();
-      const product = productsData[category].find(p => p.name === name);
-      setBreadcrumb(['Home', 'Categories', category, name]);
-      document.getElementById('productTitle').textContent = product.name;
-      document.getElementById('productImage').src = product.img;
-      document.getElementById('productDesc').textContent = product.desc;
-      document.getElementById('productPrice').textContent = product.price;
-      productDetails.classList.remove('hidden');
-    }
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
 
-    function hideAll() {
-      home.classList.add('hidden');
-      categories.classList.add('hidden');
-      products.classList.add('hidden');
-      productDetails.classList.add('hidden');
-    }
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
 
-    goHome(); // Show home by default
-  </script>
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+    <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+    </a>
+  </div>
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
