@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Document</title>
+  <!-- Bootstrap 5 CDN for styling and responsiveness -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="cursorStyle.css">
+</head>
+<body>
+  
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light" style="background: linear-gradient(90deg, #8fd19e 0%, #b6e388 100%); box-shadow: 0 2px 8px rgba(0,0,0,0.07);">
+  <div class="container">
+    <!-- Logo -->
+    <a class="navbar-brand fw-bold d-flex align-items-center" href="#" style="font-size: 1.7rem; color: #2d572c;">
+      <i class="fas fa-seedling me-2" style="color:#1B5E20;"></i> FarmConnect
+    </a>
+    <!-- Mobile Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Navbar Content -->
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <!-- Search Bar -->
+      <form class="d-flex mx-auto my-2 my-lg-0" style="max-width: 350px; width:100%;">
+        <div class="input-group">
+          <input class="form-control rounded-start-pill" type="search" placeholder="🌾 Search crops, seeds, tools..." aria-label="Search" style="border-right:0; background: #f6fff7;">
+          <button class="btn btn-success rounded-end-pill px-3" type="submit" style="background: #4caf50; border: none;">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+      </form>
+      <!-- Nav Links -->
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <!-- My Cart -->
+        <li class="nav-item me-3">
+          <a class="nav-link position-relative" href="#" style="font-size: 1.1rem;">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="ms-1">My Cart</span>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.7rem; display:none;" id="cartCountBadge">
+              0
+            </span>
+          </a>
+        </li>
+        <!-- Language Dropdown -->
+        <li class="nav-item dropdown me-3">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.1rem;">
+            <i class="fas fa-globe me-1"></i> <span id="currentLanguage">English</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="languageDropdown">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="en">
+                <i class="fas fa-flag me-2 text-primary"></i> English
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="hi">
+                <i class="fas fa-flag me-2 text-success"></i> हिंदी (Hindi)
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="ta">
+                <i class="fas fa-flag me-2 text-warning"></i> தமிழ் (Tamil)
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="te">
+                <i class="fas fa-flag me-2 text-info"></i> తెలుగు (Telugu)
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="bn">
+                <i class="fas fa-flag me-2 text-danger"></i> বাংলা (Bengali)
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="mr">
+                <i class="fas fa-flag me-2 text-secondary"></i> मराठी (Marathi)
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="gu">
+                <i class="fas fa-flag me-2 text-dark"></i> ગુજરાતી (Gujarati)
+              </a>
+            </li>
+          </ul>
+        </li>
+        <!-- Login Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.1rem;">
+            <i class="fas fa-user-circle me-1"></i> <span data-translate="login">Login</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="loginDropdown">
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#">
+                <i class="fas fa-tractor me-2 text-success"></i> <span data-translate="login-seller">Login as Seller</span>
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item d-flex align-items-center" href="#">
+                <i class="fas fa-user me-2 text-primary"></i> <span data-translate="login-customer">Login as Customer</span>
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="main-container">
+  <!-- Marquee Section -->
+  <div class="marquee-container">
+    <marquee behavior="scroll" direction="left">
+      <span data-translate="quote">"To plant a garden is to believe in tomorrow."</span> &mdash; <span data-translate="tagline">Your trust is our topmost priority!</span>
+    </marquee>
+  </div>
+
+  <!-- Carousel Section -->
+  <div class="carousel">
+    <div class="carousel-track">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1500&q=80" alt="Farm 1" class="carousel-image">
+      <img src="https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=1500&q=80" alt="Farm 2" class="carousel-image">
+      <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1500&q=80" alt="Farm 3" class="carousel-image">
+      <img src="https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1500&q=80" alt="Farm 4" class="carousel-image">
+      <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1500&q=80" alt="Farm 5" class="carousel-image">
+    </div>
+  </div>
+</div>
+
+
+<script src="cursorjavascript.js"></script>
+<!-- Bootstrap JS (for dropdown and navbar toggler) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

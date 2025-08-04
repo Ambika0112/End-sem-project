@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmConnect - Farmers E-Commerce</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Navbar --> 
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top" style="background-color: rgb(137, 236, 126); padding-top:30px;">
+        <div class="container"> 
+            <!-- Logo --> 
+            <a class="navbar-brand" href="#">
+                <img src="images/logo.png" class="w-100"  alt="FarmConnect Logo">
+            </a>
+            
+            <!-- Mobile Toggle --> 
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+        <!-- Navbar Content -->
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <!-- Search Bar -->
+            <form class="d-flex mx-auto search-bar">
+                <div class="input-group">
+                    <input class="form-control" type="search" placeholder="Search for crops, seeds, tools..." aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </form>
+            
+        <!-- Nav Links -->
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="accountDropdown" role="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-user me-1"></i> Account
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-user-circle me-2"></i>My Profile</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-clipboard-list me-2"></i>My Orders</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                </ul>
+            </li>
+                    
+            <!-- Cart -->
+            <li class="nav-item">
+                <a class="nav-link position-relative" href="#">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">3</span>
+                </a>
+            </li> 
+        </ul>
+        </div>
+        </div>
+    </nav>
+
+<!-- Carousel --> 
+<marquee behavior="" direction="" class="fs-5">⚡Kheti ke saathi, ab mile do ek ke bhaav mein ⚡ "Ab kheti ho smart—Buy 1, Get 1 free!" ⚡ </marquee> 
+<div id="photoCarousel" class="carousel slide mt-2" data-bs-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="images/image.png" class="d-block w-100 h-75" alt="Photo 1">
+    </div>
+    <div class="carousel-item">
+      <img src="images/pump.png" class="d-block w-100 h-75" alt="Photo 2">
+    </div>
+    <div class="carousel-item">
+      <img src="images/Screenshot 2025-07-31 223613.png" class="d-block w-100 h-75" alt="Photo 3">
+    </div> 
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel" data-bs-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </button>
+</div>
+
+<!-- cards -->
+<div class="cards_container">
+    <div class="cards">
+      <img src="images/image.png" alt="" class="product_img">
+      <p class="product_name">Nutrients</p>
+    </div>
+
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
+    </div>
+
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
+    </div>
+
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
+    </div>
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
+    </div>
+     <div class="cards">
+      <img src="images/image.png" alt=""  class="product_img">
+      <p class="product_name">Nutrients</p>
+    </div>
+  </div>
+
+  <!-- navigate cards -->
+  <div class="popular_cat">
+    <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+      <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+
+    <a href="" class="pro_anchor">
+      <div class="pop_card">
+        <img src="./images/pesticides.png" alt="" class="pop_card_img">
+        <p class="pop_name">Seeds</p>
+      </div>
+    </a>
+  </div>
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
