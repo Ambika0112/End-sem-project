@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth - AgriConnect</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --field-green: #4ade80;
+            --sky-blue: #38bdf8;
+            --sunny-yellow: #fbbf24;
+        }
+        
+        .auth-container {
+            background: linear-gradient(135deg, #dcfce7 0%, #e0f2fe 50%, #fef3c7 100%);
+        }
+        
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .field-image {
+            background-image: url('https://source.unsplash.com/1600x900/?agriculture,farm');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen auth-container">
+        <div class="container mx-auto px-4 py-8">
+            <!-- Logo and Navigation -->
+            <nav class="mb-8">
+                <a href="index.html" class="flex items-center space-x-2 text-2xl font-bold text-green-800">
+                    <i class="fas fa-seedling"></i>
+                    <span>AgriConnect</span>
+                </a>
+            </nav>
+
+            <!-- Auth Container -->
+            <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+                <!-- Form Section -->
+                <div class="form-container p-8 rounded-2xl shadow-lg">
+                    <!-- Tabs -->
+                    <div class="flex mb-8 space-x-4">
+                        <button onclick="switchTab('login')" id="loginTab" class="flex-1 py-3 font-semibold rounded-lg transition-colors">Login</button>
+                        <button onclick="switchTab('signup')" id="signupTab" class="flex-1 py-3 font-semibold rounded-lg transition-colors">Sign Up</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="loginForm" class="space-y-4">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-green-400" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Password</label>
+                            <input type="password" class="w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-green-400" required>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                            Login
+                        </button>
+                    </form>
+
+                    <!-- Signup Form -->
+                    <form id="signupForm" class="hidden space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-gray-700 mb-2">First Name</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-green-400" required>
+                            </div>
+                            <div>
+                                <label class="block text-gray-700 mb-2">Last Name</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-green-400" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-green-400" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Password</label>
+                            <input type="password" class="w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-green-400" required>
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">Account Type</label>
+                            <select class="w-full px-4 py-3 rounded-lg border focus:ring-2 focus:ring-green-400" required>
+                                <option value="customer">Customer</option>
+                                <option value="seller">Seller</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors">
+                            Create Account
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Image Section -->
+                <div class="hidden md:block h-[600px] field-image rounded-2xl"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        function switchTab(tab) {
+            const loginTab = document.getElementById('loginTab');
+            const signupTab = document.getElementById('signupTab');
+            const loginForm = document.getElementById('loginForm');
+            const signupForm = document.getElementById('signupForm');
+
+            if (tab === 'login') {
+                loginTab.classList.add('bg-green-600', 'text-white');
+                loginTab.classList.remove('bg-gray-100', 'text-gray-600');
+                signupTab.classList.add('bg-gray-100', 'text-gray-600');
+                signupTab.classList.remove('bg-green-600', 'text-white');
+                loginForm.classList.remove('hidden');
+                signupForm.classList.add('hidden');
+            } else {
+                signupTab.classList.add('bg-green-600', 'text-white');
+                signupTab.classList.remove('bg-gray-100', 'text-gray-600');
+                loginTab.classList.add('bg-gray-100', 'text-gray-600');
+                loginTab.classList.remove('bg-green-600', 'text-white');
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+            }
+        }
+
+        // Initialize tabs
+        document.addEventListener('DOMContentLoaded', () => {
+            switchTab('login');
+        });
+
+        // Form submission handlers
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add your login logic here
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            // Add your signup logic here
+        });
+    </script>
+</body>
+</html>

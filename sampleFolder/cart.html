@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart - AgriConnect</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Bootstrap 5 CDN for some components -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-green: #059669;
+            --secondary-green: #10b981;
+            --accent-green: #34d399;
+            --light-green: #ecfdf5;
+            --dark-green: #064e3b;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8fafc;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.75rem;
+            color: var(--dark-green) !important;
+        }
+        
+        .cart-item {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
+        
+        .cart-item:hover {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+        }
+        
+        .quantity-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            border: 2px solid var(--accent-green);
+            background: white;
+            color: var(--primary-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .quantity-btn:hover {
+            background: var(--accent-green);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .quantity-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px;
+        }
+        
+        .quantity-input:focus {
+            border-color: var(--primary-green);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+        
+        .remove-btn {
+            color: #ef4444;
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .remove-btn:hover {
+            background: #ef4444;
+            color: white;
+            border-color: #ef4444;
+        }
+        
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            border: 1px solid #f1f5f9;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            border: none;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-weight: 700;
+            font-size: 16px;
+            color: white;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(5, 150, 105, 0.3);
+        }
+        
+        .checkout-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+        
+        .empty-cart i {
+            font-size: 4rem;
+            color: #cbd5e1;
+            margin-bottom: 1rem;
+        }
+        
+        .continue-shopping-btn {
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .continue-shopping-btn:hover {
+            background: var(--dark-green);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .price-breakdown {
+            border-top: 2px solid #f1f5f9;
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+        
+        .total-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark-green);
+        }
+        
+        /* Mobile optimizations */
+        @media (max-width: 768px) {
+            .cart-item {
+                border-radius: 12px;
+                margin-bottom: 1rem;
+            }
+            
+            .quantity-btn {
+                width: 32px;
+                height: 32px;
+            }
+            
+            .quantity-input {
+                width: 50px;
+                font-size: 14px;
+            }
+            
+            .summary-card {
+                position: static;
+                margin-top: 2rem;
+            }
+            
+            .navbar-brand {
+                font-size: 1.5rem;
+            }
+        }
+        
+        /* Loading animation */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        .spinner {
+            border: 2px solid #f3f4f6;
+            border-top: 2px solid var(--primary-green);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Success animation */
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: block;
+            stroke-width: 2;
+            stroke: var(--primary-green);
+            stroke-miterlimit: 10;
+            margin: 10% auto;
+            box-shadow: inset 0px 0px 0px var(--primary-green);
+            animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+        }
+        
+        .success-checkmark__circle {
+            stroke-dasharray: 166;
+            stroke-dashoffset: 166;
+            stroke-width: 2;
+            stroke-miterlimit: 10;
+            stroke: var(--primary-green);
+            fill: none;
+            animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+        }
+        
+        .success-checkmark__check {
+            transform-origin: 50% 50%;
+            stroke-dasharray: 48;
+            stroke-dashoffset: 48;
+            animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+        }
+        
+        @keyframes stroke {
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+        
+        @keyframes scale {
+            0%, 100% {
+                transform: none;
+            }
+            50% {
+                transform: scale3d(1.1, 1.1, 1);
+            }
+        }
+        
+        @keyframes fill {
+            100% {
+                box-shadow: inset 0px 0px 0px 30px var(--primary-green);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="bg-gradient-to-r from-green-100 to-green-50 shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-4">
+                <!-- Logo -->
+                <a href="index.html" class="navbar-brand flex items-center space-x-2">
+                    <i class="fas fa-seedling text-green-800"></i>
+                    <span>AgriConnect</span>
+                </a>
+                
+                <!-- Navigation Links -->
+                <div class="flex items-center space-x-4">
+                    <a href="products.html" class="text-green-800 hover:text-green-600 transition-colors font-medium">
+                        <i class="fas fa-store mr-2"></i>
+                        <span class="hidden sm:inline">Continue Shopping</span>
+                    </a>
+                    <a href="auth.html" class="text-green-800 hover:text-green-600 transition-colors font-medium">
+                        <i class="fas fa-user mr-2"></i>
+                        <span class="hidden sm:inline">Account</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 py-8">
+        <!-- Page Header -->
+        <div class="mb-8">
+            <nav class="text-sm text-gray-600 mb-4">
+                <a href="index.html" class="hover:text-green-600">Home</a>
+                <span class="mx-2">/</span>
+                <span class="text-gray-800 font-medium">Shopping Cart</span>
+            </nav>
+            <h1 class="text-3xl lg:text-4xl font-bold text-gray-800 mb-2">Shopping Cart</h1>
+            <p class="text-gray-600">Review your items and proceed to checkout</p>
+        </div>
+
+        <!-- Cart Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <!-- Cart Items -->
+            <div class="lg:col-span-2">
+                <div id="cartItems">
+                    <!-- Cart items will be loaded here -->
+                </div>
+                
+                <!-- Empty Cart State -->
+                <div id="emptyCart" class="empty-cart hidden">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h3 class="text-2xl font-semibold mb-4">Your cart is empty</h3>
+                    <p class="text-lg mb-6">Looks like you haven't added any items to your cart yet.</p>
+                    <a href="products.html" class="continue-shopping-btn">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Start Shopping
+                    </a>
+                </div>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="lg:col-span-1">
+                <div id="orderSummary" class="summary-card p-6 hidden">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Order Summary</h3>
+                    
+                    <div class="space-y-3 mb-4">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Subtotal (<span id="itemCount">0</span> items)</span>
+                            <span id="subtotal">₹0</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Delivery Charges</span>
+                            <span id="deliveryCharges">₹0</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>GST (18%)</span>
+                            <span id="gst">₹0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="price-breakdown">
+                        <div class="flex justify-between items-center mb-4">
+                            <span class="text-lg font-semibold">Total Amount</span>
+                            <span class="total-price" id="totalAmount">₹0</span>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <div class="text-sm text-green-600 font-medium mb-2">
+                                <i class="fas fa-tag mr-1"></i>
+                                You're saving ₹<span id="totalSavings">0</span>
+                            </div>
+                        </div>
+                        
+                        <button id="checkoutBtn" class="checkout-btn" onclick="proceedToCheckout()">
+                            <i class="fas fa-lock mr-2"></i>
+                            Proceed to Checkout
+                        </button>
+                        
+                        <div class="mt-4 text-center">
+                            <div class="text-sm text-gray-500 mb-2">
+                                <i class="fas fa-shield-alt mr-1"></i>
+                                100% Secure Checkout
+                            </div>
+                            <div class="text-xs text-gray-400">
+                                SSL encrypted | Safe payments
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+                <div class="modal-body text-center p-5">
+                    <svg class="success-checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+                        <circle class="success-checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+                        <path class="success-checkmark__check" fill="none" d="m14.1 27.2l7.1 7.2 16.7-16.8"/>
+                    </svg>
+                    
+                    <h4 class="text-2xl font-bold text-gray-800 mb-3">Order Placed Successfully!</h4>
+                    <p class="text-gray-600 mb-4">
+                        Thank you for your purchase. Your order has been sent to the seller for confirmation.
+                    </p>
+                    
+                    <div class="bg-green-50 rounded-lg p-4 mb-4">
+                        <div class="text-sm text-green-800">
+                            <div class="font-semibold">Order ID: #AGR<span id="orderNumber"></span></div>
+                            <div class="mt-1">Expected delivery: 3-5 business days</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                        <button type="button" class="btn btn-outline-primary" onclick="continueShopping()">
+                            Continue Shopping
+                        </button>
+                        <button type="button" class="btn btn-primary" onclick="viewOrders()">
+                            View Orders
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div class="modal fade" id="loadingModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+                <div class="modal-body text-center p-5">
+                    <div class="spinner mb-3"></div>
+                    <h5 class="mb-2">Processing Order...</h5>
+                    <p class="text-gray-600 mb-0">Please wait while we confirm your order</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Cart management functions
+        let cart = [];
+        
+        // Load cart from localStorage
+        function loadCart() {
+            const savedCart = localStorage.getItem('agriconnect_cart');
+            cart = savedCart ? JSON.parse(savedCart) : [];
+            renderCart();
+            updateSummary();
+        }
+        
+        // Save cart to localStorage
+        function saveCart() {
+            localStorage.setItem('agriconnect_cart', JSON.stringify(cart));
+            // Trigger storage event for other pages
+            window.dispatchEvent(new Event('storage'));
+        }
+        
+        // Format price
+        function formatPrice(price) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(price);
+        }
+        
+        // Render cart items
+        function renderCart() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const emptyCartContainer = document.getElementById('emptyCart');
+            const orderSummary = document.getElementById('orderSummary');
+            
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '';
+                emptyCartContainer.classList.remove('hidden');
+                orderSummary.classList.add('hidden');
+                return;
+            }
+            
+            emptyCartContainer.classList.add('hidden');
+            orderSummary.classList.remove('hidden');
+            
+            cartItemsContainer.innerHTML = cart.map(item => `
+                <div class="cart-item p-4 mb-4" data-id="${item.id}">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <!-- Product Image -->
+                        <div class="flex-shrink-0">
+                            <img src="${item.imageURL}" alt="${item.name}" 
+                                 class="w-24 h-24 sm:w-32 sm:h-32 object-cover rounded-lg">
+                        </div>
+                        
+                        <!-- Product Details -->
+                        <div class="flex-grow">
+                            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
+                                <div class="flex-grow">
+                                    <h3 class="text-lg font-semibold text-gray-800 mb-2">${item.name}</h3>
+                                    <p class="text-gray-600 text-sm mb-3 line-clamp-2">${item.description}</p>
+                                    
+                                    <!-- Price Information -->
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <span class="text-xl font-bold text-green-600">${formatPrice(item.price)}</span>
+                                        ${item.originalPrice && item.originalPrice > item.price ? `
+                                            <span class="text-gray-400 line-through">${formatPrice(item.originalPrice)}</span>
+                                            <span class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-medium">
+                                                ${Math.round(((item.originalPrice - item.price) / item.originalPrice) * 100)}% OFF
+                                            </span>
+                                        ` : ''}
+                                    </div>
+                                    
+                                    <!-- Availability -->
+                                    <div class="text-sm text-gray-500 mb-3">
+                                        <i class="fas fa-map-marker-alt mr-1"></i>
+                                        Available in: ${item.availablePincodes ? item.availablePincodes.slice(0, 3).join(', ') : 'Multiple locations'}
+                                        ${item.availablePincodes && item.availablePincodes.length > 3 ? ` +${item.availablePincodes.length - 3} more` : ''}
+                                    </div>
+                                </div>
+                                
+                                <!-- Quantity and Remove -->
+                                <div class="flex flex-col items-end gap-3">
+                                    <!-- Quantity Controls -->
+                                    <div class="flex items-center gap-3">
+                                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity - 1})" 
+                                                ${item.quantity <= 1 ? 'disabled' : ''}>
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <input type="number" class="quantity-input" value="${item.quantity}" 
+                                               min="1" max="99" onchange="updateQuantity(${item.id}, this.value)">
+                                        <button class="quantity-btn" onclick="updateQuantity(${item.id}, ${item.quantity + 1})" 
+                                                ${item.quantity >= 99 ? 'disabled' : ''}>
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Item Total -->
+                                    <div class="text-lg font-semibold text-gray-800">
+                                        ${formatPrice(item.price * item.quantity)}
+                                    </div>
+                                    
+                                    <!-- Remove Button -->
+                                    <button class="remove-btn" onclick="removeFromCart(${item.id})">
+                                        <i class="fas fa-trash-alt mr-1"></i>
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // Update quantity
+        function updateQuantity(productId, newQuantity) {
+            newQuantity = parseInt(newQuantity);
+            if (newQuantity < 1 || newQuantity > 99) return;
+            
+            const itemIndex = cart.findIndex(item => item.id === productId);
+            if (itemIndex !== -1) {
+                cart[itemIndex].quantity = newQuantity;
+                saveCart();
+                renderCart();
+                updateSummary();
+            }
+        }
+        
+        // Remove item from cart
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            saveCart();
+            renderCart();
+            updateSummary();
+            
+            // Show success message
+            showNotification('Item removed from cart', 'success');
+        }
+        
+        // Update order summary
+        function updateSummary() {
+            if (cart.length === 0) return;
+            
+            const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            const originalTotal = cart.reduce((total, item) => total + ((item.originalPrice || item.price) * item.quantity), 0);
+            const savings = originalTotal - subtotal;
+            const deliveryCharges = subtotal > 500 ? 0 : 50; // Free delivery above ₹500
+            const gst = Math.round(subtotal * 0.18); // 18% GST
+            const totalAmount = subtotal + deliveryCharges + gst;
+            const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+            
+            document.getElementById('itemCount').textContent = itemCount;
+            document.getElementById('subtotal').textContent = formatPrice(subtotal);
+            document.getElementById('deliveryCharges').textContent = deliveryCharges === 0 ? 'FREE' : formatPrice(deliveryCharges);
+            document.getElementById('gst').textContent = formatPrice(gst);
+            document.getElementById('totalAmount').textContent = formatPrice(totalAmount);
+            document.getElementById('totalSavings').textContent = Math.round(savings);
+        }
+        
+        // Proceed to checkout
+        function proceedToCheckout() {
+            if (cart.length === 0) return;
+            
+            // Show loading modal
+            const loadingModal = new bootstrap.Modal(document.getElementById('loadingModal'));
+            loadingModal.show();
+            
+            // Simulate API call
+            setTimeout(() => {
+                loadingModal.hide();
+                
+                // Generate order number
+                const orderNumber = Math.floor(100000 + Math.random() * 900000);
+                document.getElementById('orderNumber').textContent = orderNumber;
+                
+                // Clear cart
+                cart = [];
+                saveCart();
+                
+                // Show success modal
+                const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                successModal.show();
+                
+                // Update UI
+                renderCart();
+                updateSummary();
+                
+            }, 2000);
+        }
+        
+        // Continue shopping
+        function continueShopping() {
+            window.location.href = 'products.html';
+        }
+        
+        // View orders (mock)
+        function viewOrders() {
+            // In a real app, this would redirect to orders page
+            showNotification('Orders page coming soon!', 'info');
+            window.location.href = 'index.html';
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-lg text-white font-medium transition-all duration-300 transform translate-x-full`;
+            
+            // Set background color based on type
+            switch(type) {
+                case 'success':
+                    notification.classList.add('bg-green-500');
+                    break;
+                case 'error':
+                    notification.classList.add('bg-red-500');
+                    break;
+                case 'info':
+                    notification.classList.add('bg-blue-500');
+                    break;
+                default:
+                    notification.classList.add('bg-gray-500');
+            }
+            
+            notification.innerHTML = `
+                <div class="flex items-center">
+                    <i class="fas fa-${type === 'success' ? 'check' : type === 'error' ? 'exclamation' : 'info'}-circle mr-2"></i>
+                    ${message}
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Animate in
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Animate out and remove
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+        
+        // Initialize cart on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadCart();
+            
+            // Listen for storage changes (cart updates from other pages)
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'agriconnect_cart') {
+                    loadCart();
+                }
+            });
+        });
+        
+        // Handle back button
+        window.addEventListener('popstate', function(e) {
+            // Save cart state when navigating
+            saveCart();
+        });
+        
+        // Save cart before page unload
+        window.addEventListener('beforeunload', function() {
+            saveCart();
+        });
+    </script>
+</body>
+</html>

@@ -3,11 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Document</title>
+  <title data-translate="page-title">AgriConnect - Your Local Agricultural Marketplace</title>
   <!-- Bootstrap 5 CDN for styling and responsiveness -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="cursorStyle.css">
+  <style>
+    /* Simple animations inspired by farmkart.com */
+    .fade-in { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+    .card-hover { transition: all 0.3s ease; }
+    .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+    .scroll-cards { overflow-x: auto; scrollbar-width: thin; }
+    .scroll-cards::-webkit-scrollbar { height: 6px; }
+    .scroll-cards::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+    .scroll-cards::-webkit-scrollbar-thumb { background: #28a745; border-radius: 10px; }
+    .brand-card { min-width: 200px; flex: 0 0 auto; }
+    .product-card-mini { min-width: 280px; flex: 0 0 auto; }
+  </style>
+  
 </head>
 <body>
   
@@ -19,7 +33,7 @@
   <div class="container">
     <!-- Logo -->
     <a class="navbar-brand fw-bold d-flex align-items-center" href="#" style="font-size: 1.7rem; color: #2d572c;">
-      <i class="fas fa-seedling me-2" style="color:#1B5E20;"></i> FarmConnect
+      <i class="fas fa-seedling me-2" style="color:#1B5E20;"></i> <span data-translate="brand-name">AgriConnect</span>
     </a>
     <!-- Mobile Toggle -->
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
@@ -28,11 +42,12 @@
     <!-- Navbar Content -->
     <div class="collapse navbar-collapse" id="navbarContent">
       <!-- Search Bar -->
-      <form class="d-flex mx-auto my-2 my-lg-0" style="max-width: 350px; width:100%;">
-        <div class="input-group">
-          <input class="form-control rounded-start-pill" type="search" placeholder="🌾 Search crops, seeds, tools..." aria-label="Search" style="border-right:0; background: #f6fff7;">
-          <button class="btn btn-success rounded-end-pill px-3" type="submit" style="background: #4caf50; border: none;">
-            <i class="fas fa-search"></i>
+      <form class="d-flex ms-auto me-4 my-2 my-lg-0" style="max-width: 450px; width:100%; min-width: 300px;" onsubmit="handleSearch(event)">
+        <div class="input-group shadow-lg">
+          <input class="form-control" type="search" placeholder="🌾 Search crops, seeds, tools..." aria-label="Search" data-translate-placeholder="search-placeholder" id="searchInput">
+          <button class="btn btn-success px-4" type="submit">
+            <i class="fas fa-search me-2"></i>
+            <span class="d-none d-lg-inline fw-bold" data-translate="search-btn">Search</span>
           </button>
         </div>
       </form>
@@ -40,10 +55,10 @@
       <ul class="navbar-nav ms-auto align-items-lg-center">
         <!-- My Cart -->
         <li class="nav-item me-3">
-          <a class="nav-link position-relative" href="#" style="font-size: 1.1rem;">
+          <a class="nav-link position-relative" href="cart.html" style="font-size: 1.1rem;">
             <i class="fas fa-shopping-cart"></i>
-            <span class="ms-1">My Cart</span>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.7rem; display:none;" id="cartCountBadge">
+            <span class="ms-1" data-translate="my-cart">My Cart</span>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.7rem;" id="cartCountBadge">
               0
             </span>
           </a>
@@ -55,37 +70,37 @@
           </a>
           <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="languageDropdown">
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="en">
+              <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('en')" data-lang="en">
                 <i class="fas fa-flag me-2 text-primary"></i> English
               </a>
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="hi">
+              <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('hi')" data-lang="hi">
                 <i class="fas fa-flag me-2 text-success"></i> हिंदी (Hindi)
               </a>
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="ta">
+              <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('ta')" data-lang="ta">
                 <i class="fas fa-flag me-2 text-warning"></i> தமிழ் (Tamil)
               </a>
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="te">
+              <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('te')" data-lang="te">
                 <i class="fas fa-flag me-2 text-info"></i> తెలుగు (Telugu)
               </a>
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="bn">
+              <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('bn')" data-lang="bn">
                 <i class="fas fa-flag me-2 text-danger"></i> বাংলা (Bengali)
               </a>
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="mr">
+              <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('mr')" data-lang="mr">
                 <i class="fas fa-flag me-2 text-secondary"></i> मराठी (Marathi)
               </a>
             </li>
             <li>
-              <a class="dropdown-item d-flex align-items-center" href="#" data-lang="gu">
+              <a class="dropdown-item d-flex align-items-center" href="#" onclick="changeLanguage('gu')" data-lang="gu">
                 <i class="fas fa-flag me-2 text-dark"></i> ગુજરાતી (Gujarati)
               </a>
             </li>
@@ -93,20 +108,12 @@
         </li>
         <!-- Login Dropdown -->
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.1rem;">
-            <i class="fas fa-user-circle me-1"></i> <span data-translate="login">Login</span>
+          <a href="auth.html" class="bg-green-600 text-white px-6 py-2 rounded-full font-medium hover:bg-green-700 transition-colors">
+            <i class="fas fa-user mr-2"></i>
+            <span>Login</span>
           </a>
-          <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="loginDropdown">
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="fas fa-tractor me-2 text-success"></i> <span data-translate="login-seller">Login as Seller</span>
-              </a>
             </li>
-            <li>
-              <a class="dropdown-item d-flex align-items-center" href="#">
-                <i class="fas fa-user me-2 text-primary"></i> <span data-translate="login-customer">Login as Customer</span>
-              </a>
-            </li>
+            
           </ul>
         </li>
       </ul>
@@ -132,11 +139,173 @@
       <img src="https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=1500&q=80" alt="Farm 5" class="carousel-image">
     </div>
   </div>
+
+  <!-- Circular Cards Section -->
+ <div class="circular-cards-section">
+  <div class="circular-card" data-category="insecticides" onclick="navigateToProducts(this)">
+    <i class="fas fa-bug"></i>
+    <h3>Insecticides</h3>
+    <p>Protect your crops</p>
+  </div>
+
+  <div class="circular-card" data-category="seeds" onclick="navigateToProducts(this)">
+    <i class="fas fa-seedling"></i>
+    <h3>Seeds</h3>
+    <p>Quality seeds for growth</p>
+  </div>
+
+  <div class="circular-card" data-category="fertilizers" onclick="navigateToProducts(this)">
+    <i class="fas fa-leaf"></i>
+    <h3>Fertilizers</h3>
+    <p>Essential plant nutrition</p>
+  </div>
+
+  <div class="circular-card" data-category="pesticides" onclick="navigateToProducts(this)">
+    <i class="fas fa-shield-alt"></i>
+    <h3>Pesticides</h3>
+    <p>Crop protection solutions</p>
+  </div>
+
+  <div class="circular-card" data-category="tools" onclick="navigateToProducts(this)">
+    <i class="fas fa-tools"></i>
+    <h3>Farm Tools</h3>
+    <p>Quality farming equipment</p>
+  </div>
+
+  <div class="circular-card" data-category="irrigation" onclick="navigateToProducts(this)">
+    <i class="fas fa-water"></i>
+    <h3>Irrigation</h3>
+    <p>Water management systems</p>
+  </div>
+</div>
+</div>
+<!-- Join Our Community Section -->
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h2 class="display-4 mb-4">Join Our Farming Community</h2>
+            <p class="lead mb-4">Get access to premium products, expert advice, and special offers!</p>
+            <button class="btn btn-success btn-lg px-5 py-3">
+                <i class="fas fa-user-plus me-2"></i>
+                Register Now
+            </button>
+        </div>
+    </div>
 </div>
 
+<!-- Footer -->
+<footer class="bg-dark text-light py-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h5 class="fw-bold mb-3" data-translate="footer-about-title">About AgriConnect</h5>
+        <p class="text-light-50" data-translate="footer-about-desc">Connecting farmers with quality agricultural products and equipment across India. Your trusted partner in farming success.</p>
+        <div class="d-flex gap-3 mt-3">
+          <a href="#" class="text-light fs-4"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="text-light fs-4"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="text-light fs-4"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="text-light fs-4"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <h5 class="fw-bold mb-3" data-translate="footer-quick-links">Quick Links</h5>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="#" class="text-light text-decoration-none" data-translate="footer-about-us">About Us</a></li>
+          <li class="mb-2"><a href="#" class="text-light text-decoration-none" data-translate="footer-contact">Contact</a></li>
+          <li class="mb-2"><a href="#" class="text-light text-decoration-none" data-translate="footer-terms">Terms & Conditions</a></li>
+          <li class="mb-2"><a href="#" class="text-light text-decoration-none" data-translate="footer-privacy">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h5 class="fw-bold mb-3" data-translate="footer-categories">Categories</h5>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="products.html?category=seeds" class="text-light text-decoration-none" data-translate="category-seeds">Seeds</a></li>
+          <li class="mb-2"><a href="products.html?category=fertilizers" class="text-light text-decoration-none" data-translate="category-fertilizers">Fertilizers</a></li>
+          <li class="mb-2"><a href="products.html?category=tools" class="text-light text-decoration-none" data-translate="category-tools">Farm Tools</a></li>
+          <li class="mb-2"><a href="products.html?category=irrigation" class="text-light text-decoration-none" data-translate="category-irrigation">Irrigation</a></li>
+        </ul>
+      </div>
+      <div class="col-md-3">
+        <h5 class="fw-bold mb-3" data-translate="footer-contact-title">Contact Us</h5>
+        <div class="text-light-50">
+          <p class="mb-2">
+            <i class="fas fa-envelope me-2"></i> support@agriconnect.com
+          </p>
+          <p class="mb-2">
+            <i class="fas fa-phone me-2"></i> +91 1800 123 4567
+          </p>
+          <p class="mb-2">
+            <i class="fas fa-map-marker-alt me-2"></i> <span data-translate="footer-address">New Delhi, India</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr class="my-4 border-secondary">
+    <div class="row align-items-center">
+      <div class="col-md-6">
+        <p class="mb-0 text-light-50" data-translate="footer-copyright">&copy; 2024 AgriConnect. All rights reserved.</p>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <p class="mb-0 text-light-50" data-translate="footer-tagline">Empowering Farmers, Growing Together</p>
+      </div>
+    </div>
+  </div>
+</footer>
 
 <script src="cursorjavascript.js"></script>
 <!-- Bootstrap JS (for dropdown and navbar toggler) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Enhanced navigation function using data attributes
+function navigateToProducts(cardElement) {
+    const category = cardElement.getAttribute('data-category');
+    window.location.href = `products.html?category=${category}`;
+}
+
+// Add enhanced hover effects and accessibility
+document.addEventListener('DOMContentLoaded', function() {
+    const circularCards = document.querySelectorAll('.circular-card');
+    circularCards.forEach(card => {
+        card.style.cursor = 'pointer';
+        card.style.transition = 'all 0.3s ease';
+        card.setAttribute('tabindex', '0'); // Make keyboard accessible
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `View ${card.querySelector('h3').textContent} products`);
+        
+        // Enhanced hover effects
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px) scale(1.05)';
+            this.style.boxShadow = '0 15px 30px rgba(102, 187, 106, 0.3)';
+            this.style.background = 'linear-gradient(135deg, #66BB6A, #81C784)';
+            this.style.color = 'white';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '0 10px 20px rgba(0,0,0,0.1)';
+            this.style.background = '';
+            this.style.color = '';
+        });
+        
+        // Keyboard accessibility
+        card.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                navigateToProducts(this);
+            }
+        });
+        
+        // Touch feedback for mobile
+        card.addEventListener('touchstart', function() {
+            this.style.transform = 'scale(0.95)';
+        });
+        
+        card.addEventListener('touchend', function() {
+            this.style.transform = '';
+        });
+    });
+});
+</script>
 </body>
 </html>

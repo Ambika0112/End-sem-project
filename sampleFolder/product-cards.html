@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmConnect - Products</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #4CAF50;
+            --secondary-green: #8BC34A;
+            --accent-green: #66BB6A;
+            --dark-green: #2E7D32;
+            --light-green: #E8F5E8;
+            --sale-red: #FF5722;
+            --text-dark: #2C3E50;
+            --text-light: #7F8C8D;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-dark);
+        }
+
+        .section-title {
+            color: var(--dark-green);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-green), var(--secondary-green));
+            border-radius: 2px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+            border: 2px solid transparent;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15);
+            border-color: var(--accent-green);
+        }
+
+        .product-image-container {
+            position: relative;
+            overflow: hidden;
+            height: 220px;
+            background: var(--light-green);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .sale-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--sale-red);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 2;
+            box-shadow: 0 2px 8px rgba(255, 87, 34, 0.3);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            margin-bottom: 1rem;
+        }
+
+        .original-price {
+            color: var(--text-light);
+            text-decoration: line-through;
+            font-size: 0.9rem;
+            margin-right: 8px;
+        }
+
+        .sale-price {
+            color: var(--dark-green);
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .add-btn {
+            background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .add-btn:hover {
+            background: linear-gradient(135deg, var(--dark-green), var(--primary-green));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .add-btn:active {
+            transform: translateY(0);
+        }
+
+        .rating {
+            color: #FFB400;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-badge {
+            background: var(--light-green);
+            color: var(--dark-green);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #8fd19e 0%, #b6e388 100%);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+        }
+
+        .navbar-brand {
+            font-size: 1.7rem;
+            color: #2d572c !important;
+            font-weight: 700;
+        }
+
+        .farmer-friendly-note {
+            background: linear-gradient(135deg, var(--light-green), #f0f8f0);
+            border-left: 4px solid var(--primary-green);
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+        }
+
+        .farmer-friendly-note i {
+            color: var(--primary-green);
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .product-card {
+                margin-bottom: 1.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+                <i class="fas fa-seedling me-2" style="color:#1B5E20;"></i> FarmConnect
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-home me-1"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-shopping-cart me-1"></i> Cart</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container my-5">
+        <!-- Farmer Friendly Note -->
+        <div class="farmer-friendly-note">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-info-circle me-3"></i>
+                <div>
+                    <strong>किसान मित्र सूचना (Farmer Friendly Info):</strong>
+                    <p class="mb-0 mt-1">सभी उत्पाद प्रमाणित हैं और फसल की गुणवत्ता बढ़ाने के लिए डिज़ाइन किए गए हैं। All products are certified and designed to improve crop quality.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trending Products Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h2 class="section-title">
+                    <i class="fas fa-fire me-2" style="color: #FF5722;"></i>
+                    This Week's Trending Products
+                </h2>
+            </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div class="row" id="productsContainer">
+            <!-- Products will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Sample product data - This is how you structure your product objects
+        const sampleProducts = [
+            {
+                id: 1,
+                name: "Aries Agripro Micronutrient",
+                category: "Nutrients",
+                originalPrice: 650.00,
+                salePrice: 578.00,
+                image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=400&q=80",
+                rating: 4.5,
+                reviews: 23,
+                onSale: true,
+                description: "Complete micronutrient solution for healthy plant growth"
+            },
+            {
+                id: 2,
+                name: "Chamatkar Plant Growth Regulator",
+                category: "Growth Regulators",
+                originalPrice: 1310.00,
+                salePrice: 1100.00,
+                image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=400&q=80",
+                rating: 5.0,
+                reviews: 1,
+                onSale: true,
+                description: "Mepiquat Chloride 5% Aqueous Solution for optimized agricultural productivity"
+            },
+            {
+                id: 3,
+                name: "Dupont Crop Max Plant Tonic",
+                category: "Plant Tonics",
+                originalPrice: 1255.00,
+                salePrice: 933.00,
+                image: "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=400&q=80",
+                rating: 4.2,
+                reviews: 15,
+                onSale: true,
+                description: "Advanced plant tonic for enhanced crop yield and disease resistance"
+            },
+            {
+                id: 4,
+                name: "Sumitomo Taboli Plant Growth Regulator",
+                category: "Growth Regulators",
+                originalPrice: 899.00,
+                salePrice: 450.00,
+                image: "https://images.unsplash.com/photo-1464207687429-7505649dae38?auto=format&fit=crop&w=400&q=80",
+                rating: 4.8,
+                reviews: 32,
+                onSale: true,
+                description: "Premium plant growth regulator for maximum agricultural output"
+            },
+            {
+                id: 5,
+                name: "Organic Neem Oil Concentrate",
+                category: "Organic Pesticides",
+                originalPrice: 450.00,
+                salePrice: 380.00,
+                image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?auto=format&fit=crop&w=400&q=80",
+                rating: 4.6,
+                reviews: 18,
+                onSale: true,
+                description: "100% pure neem oil for natural pest control and plant protection"
+            },
+            {
+                id: 6,
+                name: "Bio-Fertilizer Combo Pack",
+                category: "Fertilizers",
+                originalPrice: 750.00,
+                salePrice: 625.00,
+                image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=400&q=80",
+                rating: 4.4,
+                reviews: 27,
+                onSale: true,
+                description: "Eco-friendly bio-fertilizer for sustainable farming practices"
+            }
+        ];
+
+        // Function to create product card HTML
+        function createProductCard(product) {
+            const discountPercent = Math.round(((product.originalPrice - product.salePrice) / product.originalPrice) * 100);
+            
+            return `
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="product-card" onclick="openProductDetails(${product.id})">
+                        <div class="product-image-container">
+                            ${product.onSale ? `<div class="sale-badge">Sale</div>` : ''}
+                            <img src="${product.image}" alt="${product.name}" class="product-image">
+                        </div>
+                        <div class="product-info">
+                            <div class="category-badge">${product.category}</div>
+                            <h5 class="product-name">${product.name}</h5>
+                            <div class="rating">
+                                ${generateStars(product.rating)}
+                                <span class="text-muted ms-1">(${product.reviews} reviews)</span>
+                            </div>
+                            <div class="product-price">
+                                <span class="original-price">Rs. ${product.originalPrice.toFixed(2)}</span>
+                                <span class="sale-price">Rs. ${product.salePrice.toFixed(2)}</span>
+                                ${product.onSale ? `<small class="text-success ms-2">${discountPercent}% OFF</small>` : ''}
+                            </div>
+                            <button class="add-btn" onclick="event.stopPropagation(); addToCart(${product.id})">
+                                <i class="fas fa-plus me-2"></i>Add to Cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Function to generate star rating
+        function generateStars(rating) {
+            let stars = '';
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 !== 0;
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt"></i>';
+            }
+            
+            const emptyStars = 5 - Math.ceil(rating);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Function to load products
+        function loadProducts() {
+            const container = document.getElementById('productsContainer');
+            container.innerHTML = sampleProducts.map(product => createProductCard(product)).join('');
+        }
+
+        // Function to add product to cart
+        function addToCart(productId) {
+            const product = sampleProducts.find(p => p.id === productId);
+            alert(`✅ ${product.name} added to cart!\n💰 Price: Rs. ${product.salePrice}`);
+            
+            // Here you would typically update cart count and save to localStorage
+            console.log('Added to cart:', product);
+        }
+
+        // Function to open product details (redirect to description page)
+        function openProductDetails(productId) {
+            // Store product data in localStorage for the description page
+            const product = sampleProducts.find(p => p.id === productId);
+            localStorage.setItem('selectedProduct', JSON.stringify(product));
+            
+            // Redirect to product description page
+            window.location.href = 'product-description.html';
+        }
+
+        // Load products when page loads
+        document.addEventListener('DOMContentLoaded', loadProducts);
+    </script>
+</body>
+</html>

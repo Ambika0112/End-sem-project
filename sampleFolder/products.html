@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - FarmConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-green: #66BB6A;
+            --dark-green: #2E7D32;
+            --light-green: #C8E6C9;
+            --accent-green: #81C784;
+            --success-green: #4CAF50;
+            --text-dark: #1B5E20;
+            --text-light: #757575;
+            --sale-red: #F44336;
+            --warning-orange: #FF9800;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background: linear-gradient(90deg, #8fd19e 0%, #b6e388 100%);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+            padding: 1rem 0;
+        }
+
+        .navbar-brand {
+            font-size: 1.7rem;
+            font-weight: bold;
+            color: #2d572c !important;
+            text-decoration: none;
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, var(--primary-green), var(--accent-green));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .category-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .pincode-section {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .pincode-dropdown {
+            border: 2px solid var(--accent-green);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .pincode-dropdown:focus {
+            border-color: var(--dark-green);
+            box-shadow: 0 0 0 0.2rem rgba(102, 187, 106, 0.25);
+            outline: none;
+        }
+
+        .pincode-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .pincode-btn {
+            background: var(--light-green);
+            border: 2px solid var(--accent-green);
+            color: var(--dark-green);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .pincode-btn:hover,
+        .pincode-btn.active {
+            background: var(--primary-green);
+            color: white;
+            border-color: var(--dark-green);
+            transform: translateY(-2px);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+        }
+
+        .product-card.unavailable {
+            opacity: 0.6;
+            filter: grayscale(50%);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .product-description {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--success-green);
+            margin-bottom: 1rem;
+        }
+
+        .price-original {
+            font-size: 1rem;
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }
+
+        .discount-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--sale-red);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .availability-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .available {
+            background: var(--light-green);
+            color: var(--dark-green);
+        }
+
+        .limited {
+            background: #FFF3CD;
+            color: #856404;
+        }
+
+        .unavailable-status {
+            background: #F8D7DA;
+            color: #721C24;
+        }
+
+        .pincode-list {
+            font-size: 0.8rem;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+
+        .pincode-list strong {
+            color: var(--text-dark);
+        }
+
+        .add-to-cart-btn {
+            background: var(--primary-green);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .add-to-cart-btn:hover:not(:disabled) {
+            background: var(--dark-green);
+            transform: translateY(-2px);
+        }
+
+        .add-to-cart-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .no-products {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .no-products i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .breadcrumb {
+            background: transparent;
+            padding: 1rem 0;
+        }
+
+        .breadcrumb-item a {
+            color: var(--primary-green);
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: var(--text-dark);
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            border: 4px solid var(--light-green);
+            border-top: 4px solid var(--primary-green);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Mobile-first responsive design */
+        @media (max-width: 768px) {
+            .category-header {
+                padding: 1.5rem 0;
+            }
+            
+            .category-icon {
+                font-size: 2.5rem;
+            }
+            
+            .pincode-section {
+                padding: 1rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .product-card {
+                margin-bottom: 1rem;
+            }
+            
+            .pincode-buttons {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar-brand {
+                font-size: 1.4rem;
+            }
+            
+            .product-info {
+                padding: 1rem;
+            }
+            
+            .product-name {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        .product-card:focus {
+            outline: 3px solid var(--primary-green);
+            outline-offset: 2px;
+        }
+
+        .pincode-btn:focus {
+            outline: 2px solid var(--dark-green);
+            outline-offset: 2px;
+        }
+
+        /* Touch-friendly design */
+        @media (hover: none) and (pointer: coarse) {
+            .product-card:hover {
+                transform: none;
+            }
+            
+            .product-card:active {
+                transform: scale(0.98);
+            }
+            
+            .pincode-btn {
+                min-height: 44px;
+                min-width: 44px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="cursor nan.html">
+                <i class="fas fa-seedling me-2" style="color:#1B5E20;"></i> FarmConnect
+            </a>
+        </div>
+    </nav>
+
+    <!-- Category Header -->
+    <div class="category-header">
+        <div class="container">
+            <i id="categoryIcon" class="category-icon"></i>
+            <h1 id="categoryTitle" class="display-4 fw-bold mb-3"></h1>
+            <p id="categoryDescription" class="lead"></p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Breadcrumb -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="cursor nan.html">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page" id="breadcrumbCategory">Products</li>
+            </ol>
+        </nav>
+
+        <!-- Pincode Selection Section -->
+        <div class="pincode-section">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h5 class="mb-3">
+                        <i class="fas fa-map-marker-alt me-2"></i>
+                        Select Your Delivery Location
+                    </h5>
+                    
+                    <!-- Dropdown for pincode selection -->
+                    <select id="pincodeDropdown" class="pincode-dropdown w-100" onchange="filterByPincode()">
+                        <option value="">Select your pincode to see available products</option>
+                        <option value="110001">110001 - New Delhi</option>
+                        <option value="400001">400001 - Mumbai</option>
+                        <option value="560001">560001 - Bangalore</option>
+                        <option value="700001">700001 - Kolkata</option>
+                        <option value="500001">500001 - Hyderabad</option>
+                        <option value="600001">600001 - Chennai</option>
+                        <option value="411001">411001 - Pune</option>
+                        <option value="380001">380001 - Ahmedabad</option>
+                    </select>
+                    
+                    <!-- Quick pincode buttons -->
+                    <div class="pincode-buttons">
+                        <button class="pincode-btn" onclick="selectPincode('110001', this)">Delhi</button>
+                        <button class="pincode-btn" onclick="selectPincode('400001', this)">Mumbai</button>
+                        <button class="pincode-btn" onclick="selectPincode('560001', this)">Bangalore</button>
+                        <button class="pincode-btn" onclick="selectPincode('700001', this)">Kolkata</button>
+                        <button class="pincode-btn" onclick="selectPincode('500001', this)">Hyderabad</button>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <i class="fas fa-shipping-fast" style="font-size: 3rem; color: var(--primary-green);"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+            <div class="spinner"></div>
+            <p>Loading products...</p>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="products-grid">
+            <!-- Products will be loaded here dynamically -->
+        </div>
+
+        <!-- No Products Message -->
+        <div id="noProducts" class="no-products" style="display: none;">
+            <i class="fas fa-search"></i>
+            <h4>No products found</h4>
+            <p id="noProductsMessage">Try selecting a different pincode or check back later for new products.</p>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="products-data.js"></script>
+    <script src="products.js"></script>
+</body>
+</html>

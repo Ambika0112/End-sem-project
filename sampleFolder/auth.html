@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - AgriConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #059669;
+            --secondary: #10b981;
+            --accent: #34d399;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+            min-height: 100vh;
+        }
+        
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 0;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .auth-left {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 60px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+        
+        .auth-right {
+            padding: 40px;
+        }
+        
+        .user-type-toggle {
+            background: #f8f9fa;
+            border-radius: 50px;
+            padding: 4px;
+            margin-bottom: 30px;
+        }
+        
+        .user-type-btn {
+            border: none;
+            background: transparent;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            flex: 1;
+        }
+        
+        .user-type-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+        }
+        
+        .form-control {
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: #047857;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.3);
+        }
+        
+        .form-switch-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .form-switch-link:hover {
+            color: var(--secondary);
+        }
+        
+        @media (max-width: 768px) {
+            .auth-left {
+                padding: 40px 20px;
+            }
+            
+            .auth-right {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Back to Home -->
+    <div class="position-fixed top-0 start-0 p-3 z-3">
+        <a href="index.html" class="btn btn-light rounded-circle p-3 shadow">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+    </div>
+
+    <div class="auth-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12">
+                    <div class="auth-card">
+                        <div class="row g-0">
+                            <!-- Left Side - Branding -->
+                            <div class="col-lg-5 d-none d-lg-block">
+                                <div class="auth-left">
+                                    <div class="mb-4">
+                                        <i class="fas fa-leaf" style="font-size: 4rem; margin-bottom: 20px;"></i>
+                                        <h2 class="fw-bold mb-3">AgriConnect</h2>
+                                        <p class="lead opacity-90">Connect with local agricultural sellers and grow your farming business</p>
+                                    </div>
+                                    
+                                    <div class="features">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-check-circle me-3"></i>
+                                            <span>Quality Products</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-check-circle me-3"></i>
+                                            <span>Local Sellers</span>
+                                        </div>
+                                        <div class="d-flex align-items-center mb-3">
+                                            <i class="fas fa-check-circle me-3"></i>
+                                            <span>Fast Delivery</span>
+                                        </div>
+                                        <div class="d-flex align-items-center">
+                                            <i class="fas fa-check-circle me-3"></i>
+                                            <span>24/7 Support</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Right Side - Forms -->
+                            <div class="col-lg-7">
+                                <div class="auth-right">
+                                    <!-- Mobile Logo -->
+                                    <div class="d-lg-none text-center mb-4">
+                                        <i class="fas fa-leaf text-success" style="font-size: 2.5rem;"></i>
+                                        <h3 class="fw-bold text-dark mt-2">AgriConnect</h3>
+                                    </div>
+                                    
+                                    <!-- User Type Toggle -->
+                                    <div class="user-type-toggle d-flex">
+                                        <button class="user-type-btn active" data-type="customer">
+                                            <i class="fas fa-user me-2"></i>Customer
+                                        </button>
+                                        <button class="user-type-btn" data-type="seller">
+                                            <i class="fas fa-store me-2"></i>Seller
+                                        </button>
+                                    </div>
+                                    
+                                    <!-- Login Form -->
+                                    <div id="loginForm">
+                                        <h4 class="fw-bold mb-3">Welcome Back!</h4>
+                                        <p class="text-muted mb-4">Sign in to your account</p>
+                                        
+                                        <form>
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold">Email Address</label>
+                                                <input type="email" class="form-control" placeholder="Enter your email" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold">Password</label>
+                                                <div class="position-relative">
+                                                    <input type="password" class="form-control" placeholder="Enter your password" required>
+                                                    <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" onclick="togglePassword(this)">
+                                                        <i class="fas fa-eye text-muted"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                                                    <label class="form-check-label text-muted" for="rememberMe">
+                                                        Remember me
+                                                    </label>
+                                                </div>
+                                                <a href="#" class="form-switch-link">Forgot Password?</a>
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-primary w-100 mb-3">
+                                                <i class="fas fa-sign-in-alt me-2"></i>Sign In
+                                            </button>
+                                        </form>
+                                        
+                                        <div class="text-center">
+                                            <span class="text-muted">Don't have an account? </span>
+                                            <a href="#" class="form-switch-link" onclick="showSignupForm()">Sign Up</a>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Signup Form -->
+                                    <div id="signupForm" style="display: none;">
+                                        <h4 class="fw-bold mb-3">Create Account</h4>
+                                        <p class="text-muted mb-4">Join our farming community</p>
+                                        
+                                        <form>
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label fw-semibold">First Name</label>
+                                                    <input type="text" class="form-control" placeholder="First name" required>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label class="form-label fw-semibold">Last Name</label>
+                                                    <input type="text" class="form-control" placeholder="Last name" required>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold">Email Address</label>
+                                                <input type="email" class="form-control" placeholder="Enter your email" required>
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold">Phone Number</label>
+                                                <input type="tel" class="form-control" placeholder="Enter your phone number" required>
+                                            </div>
+                                            
+                                            <div class="mb-3" id="sellerFields" style="display: none;">
+                                                <label class="form-label fw-semibold">Shop Name</label>
+                                                <input type="text" class="form-control" placeholder="Enter your shop name">
+                                            </div>
+                                            
+                                            <div class="mb-3">
+                                                <label class="form-label fw-semibold">Password</label>
+                                                <div class="position-relative">
+                                                    <input type="password" class="form-control" placeholder="Create a password" required>
+                                                    <button type="button" class="btn btn-link position-absolute end-0 top-50 translate-middle-y pe-3" onclick="togglePassword(this)">
+                                                        <i class="fas fa-eye text-muted"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mb-4">
+                                                <label class="form-label fw-semibold">Confirm Password</label>
+                                                <input type="password" class="form-control" placeholder="Confirm your password" required>
+                                            </div>
+                                            
+                                            <div class="form-check mb-4">
+                                                <input class="form-check-input" type="checkbox" id="agreeTerms" required>
+                                                <label class="form-check-label text-muted" for="agreeTerms">
+                                                    I agree to the <a href="#" class="form-switch-link">Terms & Conditions</a>
+                                                </label>
+                                            </div>
+                                            
+                                            <button type="submit" class="btn btn-primary w-100 mb-3">
+                                                <i class="fas fa-user-plus me-2"></i>Create Account
+                                            </button>
+                                        </form>
+                                        
+                                        <div class="text-center">
+                                            <span class="text-muted">Already have an account? </span>
+                                            <a href="#" class="form-switch-link" onclick="showLoginForm()">Sign In</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow">
+                <div class="modal-body text-center p-5">
+                    <div class="mb-4">
+                        <i class="fas fa-check-circle text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Welcome to AgriConnect!</h4>
+                    <p class="text-muted mb-4">Your account has been created successfully.</p>
+                    <button type="button" class="btn btn-primary px-4" onclick="redirectToDashboard()">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // User type toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const userTypeButtons = document.querySelectorAll('.user-type-btn');
+            const sellerFields = document.getElementById('sellerFields');
+            
+            // Check URL parameters for user type
+            const urlParams = new URLSearchParams(window.location.search);
+            const userType = urlParams.get('type');
+            
+            if (userType === 'seller') {
+                setUserType('seller');
+            }
+            
+            userTypeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const type = this.getAttribute('data-type');
+                    setUserType(type);
+                });
+            });
+            
+            function setUserType(type) {
+                userTypeButtons.forEach(btn => btn.classList.remove('active'));
+                document.querySelector(`[data-type="${type}"]`).classList.add('active');
+                
+                if (type === 'seller') {
+                    sellerFields.style.display = 'block';
+                } else {
+                    sellerFields.style.display = 'none';
+                }
+            }
+        });
+        
+        // Toggle between login and signup forms
+        function showSignupForm() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'block';
+        }
+        
+        function showLoginForm() {
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+        }
+        
+        // Password visibility toggle
+        function togglePassword(button) {
+            const input = button.parentElement.querySelector('input');
+            const icon = button.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+        
+        // Form submission handlers
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.querySelector('#loginForm form');
+            const signupForm = document.querySelector('#signupForm form');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleLogin();
+            });
+            
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                handleSignup();
+            });
+        });
+        
+        function handleLogin() {
+            // Mock login process
+            const userType = document.querySelector('.user-type-btn.active').getAttribute('data-type');
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Store user session
+                localStorage.setItem('agriconnect_user', JSON.stringify({
+                    type: userType,
+                    email: document.querySelector('#loginForm input[type="email"]').value,
+                    loggedIn: true
+                }));
+                
+                // Redirect based on user type
+                if (userType === 'seller') {
+                    window.location.href = 'seller.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }, 1000);
+        }
+        
+        function handleSignup() {
+            // Mock signup process
+            const userType = document.querySelector('.user-type-btn.active').getAttribute('data-type');
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Show success modal
+                const modal = new bootstrap.Modal(document.getElementById('successModal'));
+                modal.show();
+                
+                // Store user session
+                localStorage.setItem('agriconnect_user', JSON.stringify({
+                    type: userType,
+                    email: document.querySelector('#signupForm input[type="email"]').value,
+                    loggedIn: true
+                }));
+            }, 1000);
+        }
+        
+        function redirectToDashboard() {
+            const user = JSON.parse(localStorage.getItem('agriconnect_user'));
+            
+            if (user.type === 'seller') {
+                window.location.href = 'seller.html';
+            } else {
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html>

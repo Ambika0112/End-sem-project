@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Dashboard - AgriConnect</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #059669;
+            --secondary: #10b981;
+            --accent: #34d399;
+        }
+        
+        body {
+            background: #f8f9fa;
+        }
+        
+        .sidebar {
+            background: white;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+            min-height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 280px;
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .sidebar.show {
+            transform: translateX(0);
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .sidebar-nav {
+            padding: 20px 0;
+        }
+        
+        .nav-item {
+            margin-bottom: 5px;
+        }
+        
+        .nav-link {
+            color: #6c757d;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .nav-link i {
+            width: 20px;
+            margin-right: 12px;
+        }
+        
+        .main-content {
+            margin-left: 0;
+            padding: 20px;
+            transition: margin-left 0.3s ease;
+        }
+        
+        .main-content.sidebar-open {
+            margin-left: 280px;
+        }
+        
+        .top-bar {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: between;
+            align-items: center;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-left: 4px solid var(--primary);
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .order-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+        
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-accepted {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+        
+        .status-delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+            }
+            
+            .main-content.sidebar-open {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-leaf text-success me-2" style="font-size: 1.5rem;"></i>
+                <h4 class="mb-0 fw-bold">AgriConnect</h4>
+            </div>
+            <small class="text-muted">Seller Dashboard</small>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showSection('products')">
+                        <i class="fas fa-box"></i>
+                        My Products
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showSection('orders')">
+                        <i class="fas fa-shopping-cart"></i>
+                        Orders
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showSection('add-product')">
+                        <i class="fas fa-plus"></i>
+                        Add Product
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="showSection('profile')">
+                        <i class="fas fa-user"></i>
+                        Profile
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        
+        <div class="mt-auto p-3">
+            <a href="index.html" class="btn btn-outline-danger w-100">
+                <i class="fas fa-sign-out-alt me-2"></i>Logout
+            </a>
+        </div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link d-lg-none me-3" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h5 class="mb-0 fw-bold" id="pageTitle">Dashboard</h5>
+            </div>
+            
+            <div class="d-flex align-items-center">
+                <div class="dropdown">
+                    <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user-circle me-2"></i>
+                        <span id="sellerName">John Doe</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#" onclick="showSection('profile')">Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="index.html">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dashboard Section -->
+        <div id="dashboardSection" class="content-section">
+            <div class="row g-4 mb-4">
+                <div class="col-md-3 col-sm-6">
+                    <div class="stats-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3 class="fw-bold text-primary mb-1" id="totalProducts">12</h3>
+                                <p class="text-muted mb-0">Total Products</p>
+                            </div>
+                            <i class="fas fa-box fa-2x text-primary opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-sm-6">
+                    <div class="stats-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3 class="fw-bold text-warning mb-1" id="pendingOrders">5</h3>
+                                <p class="text-muted mb-0">Pending Orders</p>
+                            </div>
+                            <i class="fas fa-clock fa-2x text-warning opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-sm-6">
+                    <div class="stats-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3 class="fw-bold text-success mb-1" id="completedOrders">28</h3>
+                                <p class="text-muted mb-0">Completed Orders</p>
+                            </div>
+                            <i class="fas fa-check-circle fa-2x text-success opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3 col-sm-6">
+                    <div class="stats-card">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h3 class="fw-bold text-info mb-1">₹15,420</h3>
+                                <p class="text-muted mb-0">Total Revenue</p>
+                            </div>
+                            <i class="fas fa-rupee-sign fa-2x text-info opacity-50"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="bg-white rounded-3 p-4 shadow-sm">
+                        <h6 class="fw-bold mb-3">Recent Orders</h6>
+                        <div id="recentOrdersList">
+                            <!-- Recent orders will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="bg-white rounded-3 p-4 shadow-sm">
+                        <h6 class="fw-bold mb-3">Quick Actions</h6>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary" onclick="showSection('add-product')">
+                                <i class="fas fa-plus me-2"></i>Add New Product
+                            </button>
+                            <button class="btn btn-outline-primary" onclick="showSection('products')">
+                                <i class="fas fa-edit me-2"></i>Manage Products
+                            </button>
+                            <button class="btn btn-outline-success" onclick="showSection('orders')">
+                                <i class="fas fa-list me-2"></i>View All Orders
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Products Section -->
+        <div id="productsSection" class="content-section" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h6 class="fw-bold mb-0">My Products</h6>
+                <button class="btn btn-primary" onclick="showSection('add-product')">
+                    <i class="fas fa-plus me-2"></i>Add Product
+                </button>
+            </div>
+            
+            <div class="row g-4" id="productsList">
+                <!-- Products will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Orders Section -->
+        <div id="ordersSection" class="content-section" style="display: none;">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h6 class="fw-bold mb-0">Customer Orders</h6>
+                <div class="btn-group" role="group">
+                    <input type="radio" class="btn-check" name="orderFilter" id="allOrders" checked>
+                    <label class="btn btn-outline-primary" for="allOrders">All</label>
+                    
+                    <input type="radio" class="btn-check" name="orderFilter" id="pendingOrders">
+                    <label class="btn btn-outline-warning" for="pendingOrders">Pending</label>
+                    
+                    <input type="radio" class="btn-check" name="orderFilter" id="acceptedOrders">
+                    <label class="btn btn-outline-info" for="acceptedOrders">Accepted</label>
+                    
+                    <input type="radio" class="btn-check" name="orderFilter" id="deliveredOrders">
+                    <label class="btn btn-outline-success" for="deliveredOrders">Delivered</label>
+                </div>
+            </div>
+            
+            <div id="ordersList">
+                <!-- Orders will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Add Product Section -->
+        <div id="addProductSection" class="content-section" style="display: none;">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="bg-white rounded-3 p-4 shadow-sm">
+                        <h6 class="fw-bold mb-4">Add New Product</h6>
+                        
+                        <form id="addProductForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Product Name</label>
+                                    <input type="text" class="form-control" name="name" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Category</label>
+                                    <select class="form-select" name="category" required>
+                                        <option value="">Select Category</option>
+                                        <option value="seeds">Seeds</option>
+                                        <option value="fertilizers">Fertilizers</option>
+                                        <option value="pesticides">Pesticides</option>
+                                        <option value="tools">Tools</option>
+                                        <option value="irrigation">Irrigation</option>
+                                        <option value="machinery">Machinery</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Description</label>
+                                    <textarea class="form-control" name="description" rows="3" required></textarea>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Price (₹)</label>
+                                    <input type="number" class="form-control" name="price" min="0" step="0.01" required>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Stock Quantity</label>
+                                    <input type="number" class="form-control" name="stock" min="0" required>
+                                </div>
+                                
+                                <div class="col-md-4">
+                                    <label class="form-label fw-semibold">Unit</label>
+                                    <select class="form-select" name="unit" required>
+                                        <option value="">Select Unit</option>
+                                        <option value="kg">Kilogram (kg)</option>
+                                        <option value="liter">Liter</option>
+                                        <option value="piece">Piece</option>
+                                        <option value="packet">Packet</option>
+                                        <option value="bag">Bag</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Product Image URL</label>
+                                    <input type="url" class="form-control" name="image" placeholder="https://example.com/image.jpg">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Available Pincodes</label>
+                                    <textarea class="form-control" name="pincodes" rows="3" 
+                                              placeholder="Enter pincodes separated by commas (e.g., 110001, 110002, 110003)" required></textarea>
+                                    <small class="text-muted">Enter the pincodes where you can deliver this product</small>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary me-3">
+                                        <i class="fas fa-save me-2"></i>Save Product
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary" onclick="showSection('products')">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Section -->
+        <div id="profileSection" class="content-section" style="display: none;">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="bg-white rounded-3 p-4 shadow-sm">
+                        <h6 class="fw-bold mb-4">Seller Profile</h6>
+                        
+                        <form id="profileForm">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">First Name</label>
+                                    <input type="text" class="form-control" name="firstName" value="John">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Last Name</label>
+                                    <input type="text" class="form-control" name="lastName" value="Doe">
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Email</label>
+                                    <input type="email" class="form-control" name="email" value="john@example.com" readonly>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label class="form-label fw-semibold">Phone</label>
+                                    <input type="tel" class="form-control" name="phone" value="+91 98765 43210">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Shop Name</label>
+                                    <input type="text" class="form-control" name="shopName" value="Green Valley Agri Store">
+                                </div>
+                                
+                                <div class="col-12">
+                                    <label class="form-label fw-semibold">Shop Address</label>
+                                    <textarea class="form-control" name="address" rows="3">123 Farm Road, Green Valley, State - 110001</textarea>
+                                </div>
+                                
+                                <div class="col-12">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-save me-2"></i>Update Profile
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Success Modal -->
+    <div class="modal fade" id="successModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center p-4">
+                    <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
+                    <h5 class="fw-bold mb-2" id="successTitle">Success!</h5>
+                    <p class="text-muted" id="successMessage">Operation completed successfully.</p>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="seller.js"></script>
+</body>
+</html>
